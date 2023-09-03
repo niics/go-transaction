@@ -1,3 +1,6 @@
-# go-transaction
+# Go-Transaction
 
-Init repo
+## Install
+```
+go get github.com/niics/go-transaction
+```

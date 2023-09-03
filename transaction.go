@@ -1,5 +1,11 @@
 package gotransaction
 
+// Package interfaces
+type GoTransaction interface {
+	CreateTxResponse()
+	GetTransactionStatus()
+}
+
 type Transaction struct {
 }
 
@@ -17,8 +23,10 @@ type TxStatusResponse struct {
 	TxStatus string
 }
 
-func New() Transaction {
-	return Transaction{}
+func Init(c Config) error {
+	// conf := c.config()
+
+	return nil
 }
 
 func CreateTransactio() error {

@@ -10,8 +10,8 @@ import (
 
 // Package interfaces
 type GoTransaction interface {
-	CreateTransaction(endPoint string, reqBody CresteTxRequest) (*CreateTxResponse, error)
-	GetTransactionStatus(endPoint string, txHash string) (*TxStatusResponse, error)
+	BroadcastTransaction(endPoint string, reqBody CresteTxRequest) (*CreateTxResponse, error)
+	GetTransactionStatus(endPoint string, req TxStatusResquest) (*TxStatusResponse, error)
 }
 
 type Transaction struct {
@@ -27,17 +27,21 @@ type CreateTxResponse struct {
 	TxHash string
 }
 
+type TxStatusResquest struct {
+	TxHash string
+}
+
 type TxStatusResponse struct {
 	TxStatus string
 }
 
-func Init(c Config) error {
-	// conf := c.config()
+func Init(c Config) (*config, error) {
+	conf := c.config()
 
-	return nil
+	return conf, nil
 }
 
-func CreateTransaction(endPoint string, reqBody CresteTxRequest) (*CreateTxResponse, error) {
+func BroadcastTransaction(endPoint string, reqBody CresteTxRequest) (*CreateTxResponse, error) {
 	createTxURL := fmt.Sprintf("%s/braodcast", endPoint)
 	u, err := json.Marshal(reqBody)
 	if err != nil {
@@ -55,8 +59,8 @@ func CreateTransaction(endPoint string, reqBody CresteTxRequest) (*CreateTxRespo
 	return &response, nil
 }
 
-func GetTransactionStatus(endPoint string, txHash string) (*TxStatusResponse, error) {
-	createTxURL := fmt.Sprintf("%s/check/%s", endPoint, txHash)
+func GetTransactionStatus(endPoint string, req TxStatusResquest) (*TxStatusResponse, error) {
+	createTxURL := fmt.Sprintf("%s/check/%s", endPoint, req.TxHash)
 	r, err := http.Get(createTxURL)
 	if err != nil {
 		return nil, err
